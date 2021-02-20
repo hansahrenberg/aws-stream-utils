@@ -34,6 +34,25 @@ pipenv run pytest -vv
 
 ## Usage
 
+### Kinesis Library
+
+#### Batcher
+
+Creates optimum batches for sending data to the target Kinesis stream. This might be useful in an application that continuously reads large numbers of records from a data source and writes them to Kinesis data stream. The records are assumed to be strings of variable length. These records are passed through intact without messing up the order of the records.
+
+Rebatch function takes in an array of records of variable size and splits the input to batches of records (array of arrays) suitably sized for delivery to a system which has adjustable thresholds or limits for
+
+- maximum size of output record (default 1 MB), larger records should be discarded
+- maximum size of output batch (default 5 MB)
+- maximum number of records in an output batch (default 500)
+
+Example.
+```
+# input_array = [<str>, <str>, , <str>,... ]
+# output_array = [[<str>,<str>,<str>,...], [...], [...],... ]
+output_array = rebatch(input_array)
+```
+
 ## Authors
 
 - Hans Ahrenberg

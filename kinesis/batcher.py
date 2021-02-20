@@ -53,7 +53,6 @@ def generate_batches(array_to_split: list, max_object_size: int,
 def rebatch(input_array: list, max_object_size: int = 1000000,
             max_batch_size: int = 5000000, max_objects_per_batch: int = 500) -> list:
     """
-    Creates optimum batches for sending data to the target service.
     Rebatches an array of string objects using a batch generator.
 
     :param input_array: a list of string objects
