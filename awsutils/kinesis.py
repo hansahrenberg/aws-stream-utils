@@ -4,7 +4,7 @@ from typing import Generator
 
 class Batcher:
     """
-    Rebatch a list of events and optimizes batch size for sending data to the target Kinesis stream.
+    This class optimizes batch size for sending data to the target Kinesis stream.
     """
     def __init__(self, input_array=None, max_object_size=1000000, max_batch_size=5000000, max_objects_per_batch=500, logger=None):
         self.init_logging(logger)
@@ -66,10 +66,7 @@ class Batcher:
 
     def create(self):
         """
-        Rebatches an array of string objects using a batch generator.
-
-        :param input_array: a list of string objects
-        :returns: a list of batches where each batch is an array of records
+        Returns an array of arrays representing optimally batched records.
         """
         output_array = []
 
