@@ -64,7 +64,7 @@ class Batcher:
         if batch:
             yield batch
 
-    def rebatch(self):
+    def create(self):
         """
         Rebatches an array of string objects using a batch generator.
 

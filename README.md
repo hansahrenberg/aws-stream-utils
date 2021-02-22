@@ -58,7 +58,7 @@ A single record will be discarded if maximum size threshold is exceeded.
 ```
 >>> from awsutils.kinesis import Batcher
 >>> input = ["aa","bbb","cccc","ddddd"]
->>> Batcher(input, max_objects_per_batch=3).rebatch()
+>>> Batcher(input, max_objects_per_batch=3).create()
 [['aa', 'bbb', 'cccc'], ['ddddd']]
 ```
 
