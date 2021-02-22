@@ -6,19 +6,23 @@ These instructions will get you to know how to run and test the application.
 
 ### Prerequisites
 
-### Build locally from source
+### Build and install the package
 
-Go to the working directory /path/to/kinesis-batcher-library
+Go to the working directory /path/to/awsutils-library
 
-Run `python setup.py bdist_wheel`
+- Create a binary distribution package which then can be installed with pip
 
-then install the library by using `pip install /path/to/wheelfile.whl`
+`python setup.py bdist_wheel --universal`
 
-Once you have installed the library, you can import it using, e.g.:
+- Install the package
+
+`pip install dist/$PACKAGE_NAME.whl`
+
+- After installation import the package
 
 ```
-import kinesis
-from kinesis import batcher
+import awsutils
+from awsutils import kinesis
 ```
 
 ## Running tests
@@ -34,23 +38,28 @@ pipenv run pytest -vv
 
 ## Usage
 
-### Kinesis Library
+### Kinesis Utilities
 
 #### Batcher
 
 Creates optimum batches for sending data to the target Kinesis stream. This might be useful in an application that continuously reads large numbers of records from a data source and writes them to Kinesis data stream. The records are assumed to be strings of variable length. These records are passed through intact without messing up the order of the records.
 
-Rebatch function takes in an array of records of variable size and splits the input to batches of records (array of arrays) suitably sized for delivery to a system which has adjustable thresholds or limits for
+Rebatch function takes in an array of records of variable size and splits the input into new batches of records `[ <var>, <var>, , <var>, ... ] -> [ [<var>, <var>, <var>,...], [...], [...], ... ]` suitably sized for delivery to a system which has adjustable thresholds or limits for
 
-- maximum size of output record (default 1 MB), larger records should be discarded
+- maximum size of output record (default 1 MB) 
+    - max_object_size=1000000
 - maximum size of output batch (default 5 MB)
+    - max_batch_size=5000000
 - maximum number of records in an output batch (default 500)
+    - max_objects_per_batch=500
 
-Example.
+A single record will be discarded if maximum size threshold is exceeded.
+
 ```
-# input_array = [<str>, <str>, , <str>,... ]
-# output_array = [[<str>,<str>,<str>,...], [...], [...],... ]
-output_array = rebatch(input_array)
+>>> from awsutils.kinesis import Batcher
+>>> input = ["aa","bbb","cccc","ddddd"]
+>>> Batcher(input, max_objects_per_batch=3).rebatch()
+[['aa', 'bbb', 'cccc'], ['ddddd']]
 ```
 
 ## Authors

@@ -1,7 +1,7 @@
 import random
 import string
 import pytest
-from kinesis import batcher
+from awsutils.kinesis import Batcher 
 
 
 test_data = [
@@ -37,7 +37,7 @@ def test_batching_constraints(test_data, expected_output):
     3) Single batch must not be greater than 5 MB in size
     """
     array_lengths = []
-    for i in batcher.rebatch(test_data):
+    for i in Batcher(test_data).rebatch():
         array_lengths.append(len(i))
 
     assert array_lengths == expected_output
@@ -48,6 +48,6 @@ def test_record_similarity_and_ordering(test_data=test_data):
     both in input array and output array(s).
     """
     first_index = 0
-    for i in batcher.rebatch(test_data):
+    for i in Batcher(test_data).rebatch():
         assert i == test_data[first_index:first_index+len(i)]
         first_index += len(i)
