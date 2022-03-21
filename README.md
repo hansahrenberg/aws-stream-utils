@@ -1,4 +1,4 @@
-# AWS utils library
+# AWS stream utils
 
 ## Getting started
 
